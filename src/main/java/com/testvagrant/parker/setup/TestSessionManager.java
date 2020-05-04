@@ -20,12 +20,12 @@ public class TestSessionManager {
     public AppiumDriver mobileDriver;
 
     public TestSessionManager() {
-        wd = new DriverFactory();
+        wd = new DriverFactory(getConfigurations());
         yaml = new YamlReader("src/test/resources/Data/TestData.yml");
     }
     public void setDriver() {
         wd.startAppium();
-        mobileDriver = wd.getDriver(getConfigurations());
+        mobileDriver = wd.getDriver();
 
     }
     public void closeSession() {
@@ -35,7 +35,7 @@ public class TestSessionManager {
         return mobileDriver;
     }
     private Map<String, String> getConfigurations() {
-        String[] configKeys = {"browserName", "seleniumserver", "seleniumserverhosturl"};
+        String[] configKeys = {"platform", "server", "ipAddress","port"};
         Map<String, String> config = new HashMap<String, String>();
         for (String string : configKeys) {
             try {

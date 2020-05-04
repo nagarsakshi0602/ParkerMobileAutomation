@@ -10,6 +10,7 @@ public class LaunchParkerTest {
     public void launchApplication()
     {
         testSessionManager = new TestSessionManager();
-        testSessionManager.initializeMobileDriver(Platform.ANDROID);
+        testSessionManager.setDriver();
+        testSessionManager.closeSession();
     }
 }

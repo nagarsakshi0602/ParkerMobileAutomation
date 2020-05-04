@@ -5,8 +5,9 @@
  */
 package com.testvagrant.parker.utilities.listeners;
 
+import com.testvagrant.parker.setup.TestSessionManager;
 import org.apache.commons.io.FileUtils;
-import org.example.ecommerce.setup.TestSessionManager;
+
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -21,7 +22,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.example.ecommerce.utilities.readers.ConfigPropertyReader.getProperty;
+import static com.testvagrant.parker.utilities.readers.ConfigPropertyReader.getProperty;
+
 
 public class ScreenshotListener implements ITestListener {
 
@@ -59,7 +61,7 @@ public class ScreenshotListener implements ITestListener {
         this.testname = result.getTestClass().getRealClass().getSimpleName();
         TestSessionManager test = null;
         try {
-            field = result.getTestClass().getRealClass().getDeclaredField("testSession");
+            field = result.getTestClass().getRealClass().getDeclaredField("testSessionManager");
             field.setAccessible(true);
             try {
                 test = (TestSessionManager) field.get(result.getInstance());
