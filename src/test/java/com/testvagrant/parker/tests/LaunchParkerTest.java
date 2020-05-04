@@ -1,6 +1,7 @@
 package com.testvagrant.parker.tests;
 
 import com.testvagrant.parker.setup.TestSessionManager;
+import org.openqa.selenium.Platform;
 import org.testng.annotations.Test;
 
 public class LaunchParkerTest {
@@ -9,7 +10,6 @@ public class LaunchParkerTest {
     public void launchApplication()
     {
         testSessionManager = new TestSessionManager();
-        testSessionManager.initializeMobileDriver("android");
-
+        testSessionManager.initializeMobileDriver(Platform.ANDROID);
     }
 }

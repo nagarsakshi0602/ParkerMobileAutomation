@@ -1,50 +1,53 @@
 package com.testvagrant.parker.setup;
 
 
+import com.testvagrant.parker.utilities.readers.YamlReader;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.testvagrant.parker.utilities.readers.ConfigPropertyReader.getProperty;
 
 public class TestSessionManager {
+    private YamlReader yaml;
+    private DriverFactory wd;
     public AppiumDriver mobileDriver;
 
-    AppiumDriverLocalService driverLocalService;
-
-    public AppiumDriver initializeMobileDriver(String platformName) {
-        if (platformName.equalsIgnoreCase("android")) {
-            mobileDriver = initializeAndroidDriver();
-        }
-        return mobileDriver;
+    public TestSessionManager() {
+        wd = new DriverFactory();
+        yaml = new YamlReader("src/test/resources/Data/TestData.yml");
     }
+    public void setDriver() {
+        wd.startAppium();
+        mobileDriver = wd.getDriver(getConfigurations());
 
-
-    public AndroidDriver initializeAndroidDriver() {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("app", "/Users/admin/ParkerMobileAppAutomation/src/test/resources/app/parker.apk");
-        capabilities.setCapability("platformName", "android");
-        capabilities.setCapability("deviceName", "Pixel XL");
-
-
-        driverLocalService = AppiumDriverLocalService.buildDefaultService();
-        driverLocalService.start();
-
-        URL serverUrl = null;
-        serverUrl = driverLocalService.getUrl();
-        // serverUrl = new URL("http://localhost:4723/wd/hub");
-
-        return new AndroidDriver(serverUrl, capabilities);
     }
-
     public void closeSession() {
-        // mobileDriver.quit();
-        driverLocalService.stop();
+        wd.stopAppium();
     }
-
     public AppiumDriver getDriver() {
-
         return mobileDriver;
+    }
+    private Map<String, String> getConfigurations() {
+        String[] configKeys = {"browserName", "seleniumserver", "seleniumserverhosturl"};
+        Map<String, String> config = new HashMap<String, String>();
+        for (String string : configKeys) {
+            try {
+                if (System.getProperty(string).isEmpty()) {
+                    config.put(string, getProperty("src/main/resources/config.properties", string));
+                } else {
+                    config.put(string, System.getProperty(string));
+                }
+            } catch (NullPointerException e) {
+                config.put(string, getProperty("src/main/resources/config.properties", string));
+            }
+        }
+        return config;
     }
 }
