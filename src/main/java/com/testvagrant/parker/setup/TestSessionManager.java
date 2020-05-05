@@ -25,6 +25,7 @@ public class TestSessionManager {
     }
     public void setDriver() {
         wd.startAppium();
+
         mobileDriver = wd.getDriver();
 
     }

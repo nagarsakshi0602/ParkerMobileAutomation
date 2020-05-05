@@ -38,15 +38,21 @@ public class DriverFactory {
     }
 
     public AndroidDriver initializeAndroidDriver() {
+        AndroidDriver localDriver = null;
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("app", "/Users/admin/ParkerMobileAppAutomation/src/test/resources/app/parker.apk");
+        //capabilities.setCapability("app", "/Users/admin/ParkerMobileAppAutomation/src/test/resources/app/parker.apk");
         capabilities.setCapability("platformName", "android");
         capabilities.setCapability("deviceName", "Redmi Note 7 Pro");
         capabilities.setCapability("deviceId","80ca6acf");
         capabilities.setCapability("appPackage","com.streetline.parker");
         capabilities.setCapability("appActivity","com.streetline.parker.ui.main.MainActivity");
+        capabilities.setCapability("autoGrantPermissions", true);
 
-        return new AndroidDriver(driverLocalService, capabilities);
+        //capabilities.setCapability("noReset",true);
+
+        localDriver = new AndroidDriver(driverLocalService, capabilities);
+
+        return localDriver;
     }
 
     public AppiumDriverLocalService startAppium() {
@@ -66,7 +72,13 @@ public class DriverFactory {
     }
     public void stopAppium()
     {
-        driverLocalService.stop();
+        try
+        {
+            driverLocalService.stop();
+        }catch (Exception e)
+        {
+            driverLocalService.stop();
+        }
         System.out.println("Appium Stopped Successfully....");
     }
 
