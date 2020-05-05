@@ -2,6 +2,7 @@ package com.testvagrant.parker.tests;
 
 import com.testvagrant.parker.pages.HomePage;
 import com.testvagrant.parker.setup.TestSessionManager;
+import com.testvagrant.parker.utilities.DateUtils;
 import org.openqa.selenium.Platform;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
@@ -24,19 +25,15 @@ public class ParkCarTest {
     {
         testSessionManager = new TestSessionManager();
         testSessionManager.setDriver();
-
     }
     @Test
     public void parkCarAtCurrentLocation()
     {
-
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
-
         homePage = new HomePage(testSessionManager.getDriver())
                 .clickNextAndContinue()
                 .clickPark()
                 .setParkingLocation();
-        Assert.assertEquals(homePage.parkedTime(), sdf.format(new Date().getTime()));
+        Assert.assertEquals(homePage.parkedTime(), DateUtils.currentTimeShort());
     }
     @AfterTest
     public void close()
