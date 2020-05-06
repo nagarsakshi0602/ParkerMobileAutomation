@@ -3,42 +3,64 @@ package com.testvagrant.parker.tests;
 import com.testvagrant.parker.pages.HomePage;
 import com.testvagrant.parker.setup.TestSessionManager;
 import com.testvagrant.parker.utilities.DateUtils;
-import org.openqa.selenium.Platform;
+import com.testvagrant.parker.utilities.Orientation;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Date;
-
 public class ParkCarTest {
-    TestSessionManager testSessionManager;
+    TestSessionManager testSession;
     HomePage homePage;
 
     @BeforeTest
     public void setup()
     {
-        testSessionManager = new TestSessionManager();
-        testSessionManager.setDriver();
+        testSession = new TestSessionManager();
+        testSession.setDriver();
     }
     @Test
     public void parkCarAtCurrentLocation()
     {
-        homePage = new HomePage(testSessionManager.getDriver())
+        homePage = new HomePage(testSession.getDriver())
                 .clickNextAndContinue()
                 .clickPark()
                 .setParkingLocation();
+        Assert.assertTrue(homePage.isParked());
+        Assert.assertEquals(homePage.parkedTime(), DateUtils.currentTimeShort());
+    }
+    @Test
+    public void changeOrientationToLanscapeAndPark()
+    {
+        homePage = new HomePage(testSession.getDriver())
+                .clickNextAndContinue()
+                .changeOrientation(Orientation.LANDSCAPE)
+                .clickPark()
+                .setParkingLocation();
+        Assert.assertTrue(homePage.isParked());
+        Assert.assertEquals(homePage.parkedTime(), DateUtils.currentTimeShort());
+    }
+    @Test
+    public void changeLocationAndParkCar()
+    {
+        //36.037870, -120.019265
+        homePage = new HomePage(testSession.getDriver())
+                .clickNextAndContinue()
+                .setGeoLocation(36.037870,-120.019265,0)
+                .clickFilter()
+                .selectDurationInHour("1")
+                .selectMaximumPricePerHour("Free")
+                .clickFilter();
+        Assert.assertTrue(homePage.isFilterReportDisplayed());
+        homePage.clickPark()
+                .setParkingLocation();
+        Assert.assertTrue(homePage.isParked());
         Assert.assertEquals(homePage.parkedTime(), DateUtils.currentTimeShort());
     }
     @AfterTest
     public void close()
     {
-        testSessionManager.closeSession();
+        testSession.closeSession();
     }
 
 }

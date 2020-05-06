@@ -84,4 +84,6 @@ public class BasePage {
     {
         return  getDimensions().getWidth();
     }
+
+
 }
