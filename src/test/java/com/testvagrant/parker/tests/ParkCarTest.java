@@ -1,6 +1,8 @@
 package com.testvagrant.parker.tests;
 
+import com.testvagrant.parker.pages.HistoryPage;
 import com.testvagrant.parker.pages.HomePage;
+import com.testvagrant.parker.pages.NotificationsPage;
 import com.testvagrant.parker.setup.TestSessionManager;
 import com.testvagrant.parker.utilities.DateUtils;
 import com.testvagrant.parker.utilities.Orientation;
@@ -9,57 +11,133 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import static com.testvagrant.parker.utilities.readers.YamlReader.getYamlValue;
+
 public class ParkCarTest {
     TestSessionManager testSession;
     HomePage homePage;
+    NotificationsPage notificationsPage;
+    HistoryPage historyPage;
 
     @BeforeTest
-    public void setup()
-    {
+    public void setup() {
         testSession = new TestSessionManager();
         testSession.setDriver();
-    }
-    @Test
-    public void parkCarAtCurrentLocation()
-    {
         homePage = new HomePage(testSession.getDriver())
-                .clickNextAndContinue()
+                .setDefaultLocation();
+    }
+
+    @Test
+    public void parkCarAtCurrentLocation() {
+        homePage = homePage
                 .clickPark()
                 .setParkingLocation();
         Assert.assertTrue(homePage.isParked());
         Assert.assertEquals(homePage.parkedTime(), DateUtils.currentTimeShort());
     }
+
     @Test
-    public void changeOrientationToLanscapeAndPark()
-    {
-        homePage = new HomePage(testSession.getDriver())
-                .clickNextAndContinue()
+    public void changeOrientationToLanscapeAndPark() {
+        homePage = homePage
                 .changeOrientation(Orientation.LANDSCAPE)
                 .clickPark()
                 .setParkingLocation();
         Assert.assertTrue(homePage.isParked());
         Assert.assertEquals(homePage.parkedTime(), DateUtils.currentTimeShort());
+
     }
+
     @Test
-    public void changeLocationAndParkCar()
-    {
+    public void changeLocationAndParkCar() {
         //36.037870, -120.019265
-        homePage = new HomePage(testSession.getDriver())
-                .clickNextAndContinue()
-                .setGeoLocation(36.037870,-120.019265,0)
+        homePage = homePage
+                .setGeoLocation(Double.parseDouble(getYamlValue("California.latitude")),
+                        Double.parseDouble(getYamlValue("California.longitude")),
+                        Integer.parseInt(getYamlValue("California.latitude")))
                 .clickFilter()
-                .selectDurationInHour("1")
-                .selectMaximumPricePerHour("Free")
+                .selectDurationInHour(getYamlValue("Duration.1"))
+                .selectMaximumPricePerHour(getYamlValue("MaximumPrice.free"))
                 .clickFilter();
         Assert.assertTrue(homePage.isFilterReportDisplayed());
         homePage.clickPark()
                 .setParkingLocation();
         Assert.assertTrue(homePage.isParked());
         Assert.assertEquals(homePage.parkedTime(), DateUtils.currentTimeShort());
+        homePage.setDefaultLocation();
     }
+
+    @Test
+    public void turnOffNotificationAndPark() {
+        notificationsPage = homePage
+                .clickMenu()
+                .clickNotifications()
+                .switchNavigation();
+        Assert.assertFalse(notificationsPage.isNavigationOn());
+        homePage = notificationsPage
+                .navigateUp()
+                .clickPark()
+                .setParkingLocation();
+        Assert.assertTrue(homePage.isParked());
+        Assert.assertEquals(homePage.parkedTime(), DateUtils.currentTimeShort());
+    }
+
+    @Test
+    public void driveToALocationAndPark() {
+        homePage = homePage
+                .setDefaultLocation()
+                .enterLocationInSearch(getYamlValue("IndoorStadium.name"))
+                .closeSearch()
+                .setGeoLocation(Double.parseDouble(getYamlValue("IndoorStadium.latitude")),
+                        Double.parseDouble(getYamlValue("IndoorStadium.longitude")),
+                        Integer.parseInt(getYamlValue("IndoorStadium.latitude")))
+                .clickPark()
+                .setParkingLocation();
+        Assert.assertTrue(homePage.isParked());
+        Assert.assertEquals(homePage.parkedTime(), DateUtils.currentTimeShort());
+
+    }
+
+    @Test
+    public void sendAppInBackgroundAndUnpark() {
+        homePage = homePage
+                .setDefaultLocation()
+                .clickPark()
+                .setParkingLocation();
+        testSession.sendAppInBackground();
+        homePage.clickUnpark();
+        Assert.assertFalse(homePage.isParked());
+
+    }
+
+    @Test
+    public void killAppAfterParkAndVerifyUnpark() {
+        homePage = homePage
+                .setDefaultLocation()
+                .clickPark()
+                .setParkingLocation();
+        testSession.closeAppSession();
+        testSession.launchApp();
+        Assert.assertFalse(homePage.isParked());
+    }
+    @Test
+    public void parkAndLookForRecentHistory(){
+        homePage = homePage
+                .setDefaultLocation()
+                .clickPark()
+                .setParkingLocation()
+                .clickBack();
+        String time = homePage.parkedTime();
+        System.out.println(time);
+        historyPage = homePage
+                .clickMenu()
+                .clickHistory();
+        Assert.assertTrue(time.contains(historyPage.getRecentTime()));
+
+    }
+
     @AfterTest
-    public void close()
-    {
+    public void close() {
+        testSession.closeAppSession();
         testSession.closeSession();
     }
 

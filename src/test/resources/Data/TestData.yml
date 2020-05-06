@@ -1,0 +1,22 @@
+California:
+  latitude: 36.037870
+  longitude: -120.019265
+  altitude: 0
+IndoorStadium:
+  name: Indoor Stadium
+  latitude: 12.94282
+  longitude: 77.622495
+  altitude: 0
+Duration:
+  any: Any
+  1hr: 1
+  2hr: 2
+  3hr: 3
+  4hr: 4
+MaximumPrice:
+  free: Free
+  all: All
+Type:
+  offStreet: Off Street Only
+  both: Both
+  onStreet: On Street Only

@@ -9,6 +9,7 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.URL;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,5 +51,14 @@ public class TestSessionManager {
             }
         }
         return config;
+    }
+    public void sendAppInBackground(){
+        mobileDriver.runAppInBackground(Duration.ofSeconds(10));
+    }
+    public void launchApp(){
+        mobileDriver.launchApp();
+    }
+    public  void closeAppSession(){
+
     }
 }
