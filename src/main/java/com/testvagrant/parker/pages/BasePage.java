@@ -12,7 +12,7 @@ public class BasePage {
     AppiumDriver mobiledriver;
     WebDriverWait wait;
 
-    protected BasePage(AppiumDriver mobiledriver)
+    public BasePage(AppiumDriver mobiledriver)
     {
         this.mobiledriver = mobiledriver;
         wait = new WebDriverWait(this.mobiledriver, 30);

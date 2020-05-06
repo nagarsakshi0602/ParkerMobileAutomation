@@ -156,9 +156,5 @@ public class HomePage extends BasePage {
         return isDisplayed(filterReport);
     }
     ////*[@resource-id='com.streetline.parker:id/maps_toolbar_toolbar']//android.widget.ImageButton ---- Menu
-    //com.streetline.parker:id/activity_maps_drawer_notifications
-    //com.streetline.parker:id/activity_maps_drawer_history
-    //com.streetline.parker:id/activity_maps_drawer_help
-    //com.streetline.parker:id/activity_maps_drawer_feedback
-    //com.streetline.parker:id/activity_maps_drawer_battery
+
 }
