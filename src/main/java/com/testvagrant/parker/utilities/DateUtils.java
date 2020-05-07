@@ -5,9 +5,8 @@ import java.util.Date;
 
 public class DateUtils {
 
-    public static String currentTimeShort()
-    {
+    public static String currentTimeShort() {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
-       return sdf.format(new Date().getTime());
+        return sdf.format(new Date().getTime());
     }
 }

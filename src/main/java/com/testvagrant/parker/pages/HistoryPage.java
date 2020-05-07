@@ -9,12 +9,14 @@ public class HistoryPage extends BasePage {
 
     @FindBy(xpath = "//*[@resource-id='com.streetline.parker:id/timeLbl']")
     private WebElement recentTime;
+
     public HistoryPage(AppiumDriver mobiledriver) {
         super(mobiledriver);
-        PageFactory.initElements(mobiledriver,this);
+        PageFactory.initElements(mobiledriver, this);
     }
-    public String getRecentTime(){
-        System.out.println(getText(recentTime).replaceAll("[a-zA-Z]",""));
-        return getText(recentTime).replaceAll("[a-zA-Z]","");
+
+    public String getRecentTime() {
+        System.out.println(getText(recentTime).replaceAll("[a-zA-Z]", ""));
+        return getText(recentTime).replaceAll("[a-zA-Z]", "");
     }
 }

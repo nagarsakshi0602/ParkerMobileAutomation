@@ -18,10 +18,11 @@ public class ParkCarTest {
     HistoryPage historyPage;
 
     @BeforeTest
-    public void setup(){
+    public void setup() {
         testSession = new TestSessionManager();
         testSession.setDriver();
     }
+
     @BeforeMethod
     public void launch() {
         testSession.launchApp();
@@ -102,6 +103,7 @@ public class ParkCarTest {
         Assert.assertEquals(homePage.parkedTime(), DateUtils.currentTimeShort());
 
     }
+
     @Test
     public void sendAppInBackgroundAndUnpark() {
         homePage = homePage
@@ -123,8 +125,9 @@ public class ParkCarTest {
         homePage = homePage.clickNextAndContinue();
         Assert.assertFalse(homePage.isParked());
     }
+
     @Test
-    public void parkAndLookForRecentHistory(){
+    public void parkAndLookForRecentHistory() {
         homePage = homePage
                 .clickPark()
                 .setParkingLocation()
@@ -143,8 +146,9 @@ public class ParkCarTest {
         testSession.closeAppSession();
 
     }
+
     @AfterTest
-    public void tearDown(){
+    public void tearDown() {
         testSession.closeSession();
     }
 

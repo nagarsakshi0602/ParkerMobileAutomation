@@ -6,8 +6,8 @@
 package com.testvagrant.parker.utilities.listeners;
 
 import com.testvagrant.parker.setup.TestSessionManager;
+import io.appium.java_client.AppiumDriver;
 import org.apache.commons.io.FileUtils;
-
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -27,7 +27,7 @@ import static com.testvagrant.parker.utilities.readers.ConfigPropertyReader.getP
 
 public class ScreenshotListener implements ITestListener {
 
-    WebDriver driver;
+    AppiumDriver driver;
     String testname;
     String screenshotPath = "./screenshots";
 
@@ -61,7 +61,7 @@ public class ScreenshotListener implements ITestListener {
         this.testname = result.getTestClass().getRealClass().getSimpleName();
         TestSessionManager test = null;
         try {
-            field = result.getTestClass().getRealClass().getDeclaredField("testSessionManager");
+            field = result.getTestClass().getRealClass().getDeclaredField("testSession");
             field.setAccessible(true);
             try {
                 test = (TestSessionManager) field.get(result.getInstance());

@@ -82,9 +82,9 @@ public class HomePage extends BasePage {
         setLocation(latitude, longitude, altitude);
         return this;
     }
-    public HomePage setDefaultLocation()
-    {
-        setLocation(12.955312, 77.638740,0);
+
+    public HomePage setDefaultLocation() {
+        setLocation(12.955312, 77.638740, 0);
         return this;
     }
 
@@ -113,19 +113,22 @@ public class HomePage extends BasePage {
         click(element);
         return this;
     }
-    public HomePage enterLocationInSearch(String searchText){
+
+    public HomePage enterLocationInSearch(String searchText) {
         click(search);
-        sendKeys(search,searchText);
+        sendKeys(search, searchText);
         waitForElementToBeInVisible(mobiledriver.findElement(By.id("com.streetline.parker:id/maps_search_progress")));
-        WebElement element = mobiledriver.findElement(By.xpath("//android.widget.RelativeLayout[@content-desc='"+searchText+"'][1]"));
+        WebElement element = mobiledriver.findElement(By.xpath("//android.widget.RelativeLayout[@content-desc='" + searchText + "'][1]"));
         click(element);
         return this;
     }
-    public HomePage startNavigation(){
+
+    public HomePage startNavigation() {
         click(searchResultNav);
         return this;
     }
-    public HomePage launchRoute(){
+
+    public HomePage launchRoute() {
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
@@ -134,19 +137,23 @@ public class HomePage extends BasePage {
         click(launchRouteLayout);
         return this;
     }
-    public HomePage closeSearch(){
+
+    public HomePage closeSearch() {
         click(closeSearch);
         return this;
     }
-    public HomePage clickUnpark(){
+
+    public HomePage clickUnpark() {
         click(unpark);
         return this;
     }
+
     public MenuPage clickMenu() {
         click(menu);
         return new MenuPage(mobiledriver);
     }
-    public HomePage clickBack(){
+
+    public HomePage clickBack() {
         click(backBtn);
         return this;
     }
@@ -173,7 +180,6 @@ public class HomePage extends BasePage {
         String text = getText(parkedAtText).split(" ")[2];
         return text;
     }
-
 
 
 }

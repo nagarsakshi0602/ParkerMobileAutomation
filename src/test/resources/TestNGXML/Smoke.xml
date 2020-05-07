@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Smoke Checklist" preserve-order="true" parallel="tests" thread-count="4">
+    <listeners>
+        <listener class-name="com.testvagrant.parker.utilities.listeners.ScreenshotListener"/>
+        <listener class-name="com.testvagrant.parker.utilities.listeners.TestNGCustomReportListener"></listener>
+
+    </listeners>
+    <test name="Park Car Module" preserve-order="true">
+        <classes>
+
+            <class name="com.testvagrant.parker.tests.ParkCarTest"></class>
+
+        </classes>
+    </test>
+
+
+</suite>
