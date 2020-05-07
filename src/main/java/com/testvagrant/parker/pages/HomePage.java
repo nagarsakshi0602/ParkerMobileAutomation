@@ -158,7 +158,7 @@ public class HomePage extends BasePage {
     public boolean isParked() {
         boolean flag = false;
         try {
-            if (getText(parkedAtText).split(" ")[0].equalsIgnoreCase("Parked")) {
+            if (getText(parkedAtText).contains("Parked")) {
                 flag = true;
             } else {
                 flag = false;

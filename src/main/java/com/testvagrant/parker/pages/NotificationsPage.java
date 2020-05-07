@@ -48,4 +48,22 @@ public class NotificationsPage extends BasePage {
         }
         return flag;
     }
+    public boolean isAutoTimerOn() {
+        boolean flag = false;
+        if(timerSwitch.getAttribute("checked").equalsIgnoreCase("true")){
+            flag = true;
+        }else if(timerSwitch.getAttribute("checked").equalsIgnoreCase("false")){
+            flag = false;
+        }
+        return flag;
+    }
+    public boolean isAutoParkOn() {
+        boolean flag = false;
+        if(autoParkSwitch.getAttribute("checked").equalsIgnoreCase("true")){
+            flag = true;
+        }else if(autoParkSwitch.getAttribute("checked").equalsIgnoreCase("false")){
+            flag = false;
+        }
+        return flag;
+    }
 }

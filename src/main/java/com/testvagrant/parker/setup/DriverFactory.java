@@ -47,7 +47,7 @@ public class DriverFactory {
         capabilities.setCapability("appPackage","com.streetline.parker");
         capabilities.setCapability("appActivity","com.streetline.parker.ui.main.MainActivity");
         capabilities.setCapability("autoGrantPermissions", true);
-        capabilities.setCapability("noReset",true);
+        capabilities.setCapability("noReset",false);
 
         //capabilities.setCapability("noReset",true);
 

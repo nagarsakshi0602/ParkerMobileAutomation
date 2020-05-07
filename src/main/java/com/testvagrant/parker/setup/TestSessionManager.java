@@ -59,6 +59,7 @@ public class TestSessionManager {
         mobileDriver.launchApp();
     }
     public  void closeAppSession(){
+        mobileDriver.closeApp();
 
     }
 }
